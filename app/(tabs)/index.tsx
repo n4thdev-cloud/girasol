@@ -1,15 +1,40 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, TextInput } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import { Stack } from 'expo-router';
+const { width } = Dimensions.get('window');
+
 
 export default function TabOneScreen() {
+
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <>
+      <Stack.Screen
+        options={{
+          headerTitleAlign: 'center',
+
+          headerTitle: () => (
+            <View style={styles.searchContainer}>
+              <TextInput placeholder="Buscar..." style={styles.input}>
+              </TextInput>
+              <Pressable style={styles.button}>
+                <Text>🔍</Text>
+              </Pressable>
+            </View>
+          ),
+
+        }}>
+
+      </Stack.Screen>
+
+      <View style={styles.container}>
+        <Text style={styles.title}>Tab One</Text>
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" ></View>
+        <EditScreenInfo path="app/(tabs)/index.tsx"></EditScreenInfo>
+      </View>
+    </>
   );
 }
 
@@ -28,4 +53,24 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+
+
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: width - 32, // Ancho de pantalla menos márgenes
+    backgroundColor: '#f1f1f1',
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    height: 40,
+  },
+  button: {
+    paddingHorizontal: 8,
+  },
+  input: {
+    flex: 1,          // 🔥 ocupa todo el espacio disponible
+    height: '100%',
+    paddingHorizontal: 10,
+  },
+
 });
