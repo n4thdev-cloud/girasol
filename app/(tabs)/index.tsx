@@ -1,8 +1,11 @@
 import { Dimensions, Pressable, StyleSheet, TextInput } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
+import ListaHorizontal from '@/components/header/ListaHorizontal';
 import { Text, View } from '@/components/Themed';
 import { Stack } from 'expo-router';
+import React from 'react';
+
 const { width } = Dimensions.get('window');
 
 
@@ -14,23 +17,24 @@ export default function TabOneScreen() {
       <Stack.Screen
         options={{
           headerTitleAlign: 'center',
-
           headerTitle: () => (
-            <View style={styles.searchContainer}>
+            <><View style={styles.searchContainer}>
               <TextInput placeholder="Buscar..." style={styles.input}>
               </TextInput>
               <Pressable style={styles.button}>
                 <Text>🔍</Text>
               </Pressable>
             </View>
+            </>
           ),
+          headerStyle: { backgroundColor: '#dbe51aff' },
 
         }}>
 
       </Stack.Screen>
-
-      <View style={styles.container}>
-        <Text style={styles.title}>Tab One</Text>
+      <ListaHorizontal></ListaHorizontal>
+      <View style={styles.bodyContainer}>
+        <Text style={styles.title}>Tab </Text>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" ></View>
         <EditScreenInfo path="app/(tabs)/index.tsx"></EditScreenInfo>
       </View>
@@ -39,10 +43,11 @@ export default function TabOneScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  bodyContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: "#d314d6ff",
   },
   title: {
     fontSize: 20,
@@ -59,10 +64,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: width - 32, // Ancho de pantalla menos márgenes
-    backgroundColor: '#f1f1f1',
+    backgroundColor: '#15dfeaff',
     borderRadius: 10,
     paddingHorizontal: 8,
     height: 40,
+    marginTop: 0,
   },
   button: {
     paddingHorizontal: 8,
