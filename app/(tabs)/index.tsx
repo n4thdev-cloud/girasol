@@ -1,4 +1,4 @@
-import { Dimensions, Pressable, StyleSheet, TextInput } from 'react-native';
+import { Dimensions, Image, Pressable, StyleSheet, TextInput } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import ListaHorizontal from '@/components/header/ListaHorizontal';
@@ -24,6 +24,7 @@ export default function TabOneScreen() {
               <Pressable style={styles.button}>
                 <Text>🔍</Text>
               </Pressable>
+
             </View>
             </>
           ),
@@ -33,6 +34,12 @@ export default function TabOneScreen() {
 
       </Stack.Screen>
       <ListaHorizontal></ListaHorizontal>
+      <Image
+        source={{ uri: 'https://alohacamp.com/es/travels/wp-content/uploads/2024/09/montanas-de-espana-ZW.webp' }}
+        style={styles.image}
+        resizeMode="cover"
+      >
+      </Image>
       <View style={styles.bodyContainer}>
         <Text style={styles.title}>Tab </Text>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" ></View>
@@ -77,6 +84,10 @@ const styles = StyleSheet.create({
     flex: 1,          // 🔥 ocupa todo el espacio disponible
     height: '100%',
     paddingHorizontal: 10,
+  },
+  image: {
+    width: width,
+    height: 100, // obligatorio
   },
 
 });

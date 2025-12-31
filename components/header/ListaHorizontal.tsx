@@ -14,17 +14,16 @@ export default function ListaHorizontal() {
         keyExtractor={(item) => item}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => {
-          const isActive = item === selected;
+        const isActive = item === selected;
 
-
-          return (
-            <Pressable onPress={() => setSelected(item)} style={styles.item}>
-              <Text style={[styles.text, isActive && styles.activeText,]}>
-                {item}
-              </Text>
-              {isActive && <View style={styles.underline} ></View>}
-            </Pressable>
-          );
+        return (
+          <Pressable onPress={() => setSelected(item)} style={styles.item}>
+            <Text style={[styles.text, isActive && styles.activeText,]}>
+              {item}
+            </Text>
+            {isActive && <View style={styles.underline} ></View>}
+          </Pressable>
+        );
         }}
       >
       </FlatList>
