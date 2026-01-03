@@ -31,7 +31,7 @@ export default function TabLayout() {
         options={{
           title: 'Inicio',
           tabBarIcon: ({ color }) =>
-            <TabBarIcon name="cube" color={color} ></TabBarIcon>,
+            <TabBarIcon name="home" color={color} ></TabBarIcon>,
         }}
       />
       <Tabs.Screen
@@ -39,7 +39,7 @@ export default function TabLayout() {
         options={{
           title: 'Categorías',
           tabBarIcon: ({ color }) =>
-            <TabBarIcon name="cube" color={color} ></TabBarIcon>,
+            <TabBarIcon name="list-ul" color={color} ></TabBarIcon>,
         }}
       />
     </Tabs>

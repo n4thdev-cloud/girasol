@@ -5,6 +5,7 @@ import { Text, View } from '@/components/Themed';
 import { Stack } from 'expo-router';
 import React from 'react';
 
+import { FontAwesome } from '@expo/vector-icons';
 import { ScrollView } from 'react-native'; // Asegúrate de importar ScrollView
 
 const { width } = Dimensions.get('window');
@@ -52,7 +53,6 @@ const renderItem = (item: Item, customHeight: number) => (
   <View key={item.id} style={styles.card}>
     <Image
       source={{ uri: item.imagen }}
-      // Aplicamos la altura personalizada aquí para ver el efecto
       style={[styles.imageItem, { height: customHeight }]}
       resizeMode="cover"
     ></Image>
@@ -61,6 +61,31 @@ const renderItem = (item: Item, customHeight: number) => (
   </View>
 );
 
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof FontAwesome>['name'];
+  color: string;
+  backgroundColor?: string;
+}) {
+  return (
+        <View
+      style={{
+        backgroundColor: props.backgroundColor ?? 'transparent',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FontAwesome
+        size={18}
+        style={{ marginBottom: -3 }}
+        name={props.name}
+        color={props.color}
+      />
+    </View>
+  );
+}
 
 export default function TabOneScreen() {
 
@@ -75,11 +100,10 @@ export default function TabOneScreen() {
               <TextInput placeholder="Buscar..." style={styles.input}>
               </TextInput>
               <Pressable style={styles.button}>
-                <Text>🔍</Text>
+                <TabBarIcon name="search" color="#ffffffff" backgroundColor="#3a3a3aff"></TabBarIcon>
               </Pressable>
 
-            </View>
-            </>
+            </View></>
           ),
           headerStyle: { backgroundColor: '#dbe51aff' },
 
@@ -131,7 +155,7 @@ const styles = StyleSheet.create({
     width: width - 32, // Ancho de pantalla menos márgenes
     backgroundColor: '#15dfeaff',
     borderRadius: 10,
-    paddingHorizontal: 8,
+    paddingLeft: 8,
     height: 40,
     marginTop: 0,
   },

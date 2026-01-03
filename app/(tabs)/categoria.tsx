@@ -1,12 +1,28 @@
-import { Dimensions, FlatList, Image, Pressable, StyleSheet, TextInput } from 'react-native';
+import { ActivityIndicator, Dimensions, FlatList, Image, Pressable, StyleSheet, TextInput } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
+import { FontAwesome } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
+import { useEffect, useState } from 'react';
 
 const { width } = Dimensions.get('window');
 
+
 export default function TabTwoScreen() {
-  
+
+  //Inicializar la lista (primeros 10) Slice
+  const PAGE_SIZE = 10;
+const [page, setPage] = useState(1);
+const [visibleData, setVisibleData] = useState<any[]>([]);
+const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setVisibleData(dataCatalogo.slice(0, PAGE_SIZE));
+  }, []);
+
+
+
+
+
   const dataCatalogo = [
     { id: "1", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 1, descipcion larga,Item 1, descipcion larga, Item 1, descipcion larga" },
     { id: "2", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 2, descipcion larga" },
@@ -23,6 +39,16 @@ export default function TabTwoScreen() {
     { id: "13", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 13" },
     { id: "14", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 14" },
     { id: "15", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 15" },
+    { id: "16", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 16" },
+    { id: "17", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 17" },
+    { id: "18", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 18" },
+    { id: "19", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 19" },
+    { id: "20", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 20" },
+    { id: "21", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 21" },
+    { id: "22", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 22" },
+    { id: "23", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 23" },
+    { id: "24", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 24" },
+    { id: "25", imagen: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhemaKhgBMBUxW6WP7DcWkufmyT3CwQu3a_Jyl0WSZw_f6uyBw8YxncjTxust9kZzrkakUdqq1U5OEFRGFcw7vZWtOLtTZbcvwoMnY9_0anBmubcuUYBrCigJUrmxnSIfgD02DsSuk9eW0/s1600-rw/Enchantress.JPG', categoria: "Item 25" },
   ];
 
   const ofertas = [
@@ -44,6 +70,58 @@ export default function TabTwoScreen() {
 
   ];
 
+  const hasMore = visibleData.length < dataCatalogo.length;
+const loadMore = () => {
+  if (loading) return;
+
+  setLoading(true);
+
+  const start = page * PAGE_SIZE;
+  const end = start + PAGE_SIZE;
+
+  const nextItems = dataCatalogo.slice(start, end);
+
+  if (nextItems.length === 0) {
+    setLoading(false);
+    return;
+  }
+
+  setVisibleData(prev => [...prev, ...nextItems]);
+  setPage(prev => prev + 1);
+  setLoading(false);
+};
+
+
+
+  function TabBarIcon(props: {
+    name: React.ComponentProps<typeof FontAwesome>['name'];
+    color: string;
+    backgroundColor?: string;
+  }) {
+    return (
+      <View
+        style={{
+          backgroundColor: props.backgroundColor ?? 'transparent',
+          paddingHorizontal: 16,
+          paddingVertical: 8,
+          borderRadius: 20,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <FontAwesome
+          size={18}
+          style={{ marginBottom: -3 }}
+          name={props.name}
+          color={props.color}
+        />
+      </View>
+    );
+  }
+
+
+
+
   return (
 
     <>
@@ -56,7 +134,7 @@ export default function TabTwoScreen() {
               <TextInput placeholder="Buscar..." style={styles.input}>
               </TextInput>
               <Pressable style={styles.button}>
-                <Text>🔍</Text>
+                <TabBarIcon name="search" color="#ffffffff" backgroundColor="#3a3a3aff"></TabBarIcon>
               </Pressable>
 
             </View>
@@ -90,22 +168,29 @@ export default function TabTwoScreen() {
         {/* Lista derecha (70%) */}
         <FlatList
           ListHeaderComponent={() => (
-            <Text style={styles.headerTitleDerecha}>Categorías</Text>
+            <Text style={styles.headerTitleDerecha}>Compra Por Categoría</Text>
           )}
-          data={dataCatalogo}
+          data={visibleData}
           keyExtractor={(item) => item.id}
           numColumns={2}
           style={styles.rightList}
+          onEndReached={() => {
+            if (hasMore) loadMore();
+          }}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={
+            loading ? <ActivityIndicator size="small" /> : null
+          }
           renderItem={({ item }) => (
-          <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: item.imagen }}
-              style={[styles.imageItem]}
-              resizeMode="cover"
-            ></Image>
-            <Text numberOfLines={2} ellipsizeMode="tail" 
-            style={[styles.textItemCategoria]}>{item.categoria}</Text>
-          </View>
+            <View style={styles.imageContainer}>
+              <Image
+                source={{ uri: item.imagen }}
+                style={[styles.imageItem]}
+                resizeMode="cover"
+              ></Image>
+              <Text numberOfLines={2} ellipsizeMode="tail"
+                style={[styles.textItemCategoria]}>{item.categoria}</Text>
+            </View>
 
           )}
         ></FlatList>
@@ -130,7 +215,7 @@ const styles = StyleSheet.create({
     width: width - 32, // Ancho de pantalla menos márgenes
     backgroundColor: '#15dfeaff',
     borderRadius: 10,
-    paddingHorizontal: 8,
+    paddingLeft: 8,
     height: 40,
     marginTop: 0,
   },
