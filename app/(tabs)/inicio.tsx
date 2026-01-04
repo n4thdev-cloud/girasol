@@ -1,9 +1,9 @@
-import { Dimensions, Image, Pressable, StyleSheet, TextInput } from 'react-native';
+import { ActivityIndicator, Dimensions, Image, Pressable, StyleSheet, TextInput } from 'react-native';
 
 import ListaHorizontal from '@/components/header/ListaHorizontal';
 import { Text, View } from '@/components/Themed';
-import { Stack } from 'expo-router';
-import React from 'react';
+import { Stack, useFocusEffect } from 'expo-router';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { FontAwesome } from '@expo/vector-icons';
 import { ScrollView } from 'react-native'; // Asegúrate de importar ScrollView
@@ -30,6 +30,16 @@ const dataTest: Item[] = [
   { id: '8', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 8', descripcion: 'Descripción del Item 8, mas descripcion del item 1', promocion: '40% de descuento', precio: '$450' },
   { id: '9', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 9', descripcion: 'Descripción del Item 9, mas descripcion del item 1', promocion: '45% de descuento', precio: '$500' },
   { id: '10', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 10', descripcion: 'Descripción del Item 10, mas descripcion del item 1', promocion: '50% de descuento', precio: '$550' },
+  { id: '11', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 11', descripcion: 'Descripción del Item 11, mas descripcion del item 1', promocion: '55% de descuento', precio: '$600' },
+  { id: '12', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 12', descripcion: 'Descripción del Item 12, mas descripcion del item 1', promocion: '60% de descuento', precio: '$650' },
+  { id: '13', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 13', descripcion: 'Descripción del Item 13, mas descripcion del item 1', promocion: '65% de descuento', precio: '$700' },
+  { id: '14', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 14', descripcion: 'Descripción del Item 14, mas descripcion del item 1', promocion: '70% de descuento', precio: '$750' },
+  { id: '15', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 15', descripcion: 'Descripción del Item 15, mas descripcion del item 1', promocion: '75% de descuento', precio: '$800' },
+  { id: '16', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 16', descripcion: 'Descripción del Item 16, mas descripcion del item 1', promocion: '80% de descuento', precio: '$850' },
+  { id: '17', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 17', descripcion: 'Descripción del Item 17, mas descripcion del item 1', promocion: '85% de descuento', precio: '$900' },
+  { id: '18', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 18', descripcion: 'Descripción del Item 18, mas descripcion del item 1', promocion: '90% de descuento', precio: '$950' },
+  { id: '19', imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', titulo: 'Item 19', descripcion: 'Descripción del Item 19, mas descripcion del item 1', promocion: '95% de descuento', precio: '$1000' },
+  { id: '20', imagen: 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjgPs5a279hqLvtrZsFwDTS2YLM3nF1y5soxx6b9hk6beCkC8EaplTxCTaUfFfYWXk6TcILlXFQuf7wnrdrVHyfp1nmiFILfeIhy4HxN3Fu8Lz0y0vWaMpt2H44RfUj4mMaxD9T2YXeNZU/s1600/skill-0.JPG', titulo: 'Item 20', descripcion: 'Descripción del Item 20, mas descripcion del item 1', promocion: '100% de descuento', precio: '$1050' },
 ];
 
 const splitIntoColumns = (data: Item[]) => {
@@ -67,7 +77,7 @@ function TabBarIcon(props: {
   backgroundColor?: string;
 }) {
   return (
-        <View
+    <View
       style={{
         backgroundColor: props.backgroundColor ?? 'transparent',
         paddingHorizontal: 16,
@@ -88,6 +98,48 @@ function TabBarIcon(props: {
 }
 
 export default function TabOneScreen() {
+
+  const PAGE_SIZE = 10;
+  const [visibleItems, setVisibleItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const hasMore = visibleItems.length < dataTest.length;
+
+  useEffect(() => { setVisibleItems(dataTest.slice(0, PAGE_SIZE)); }, []);
+
+  const leftColumn = visibleItems.filter((_, i) => i % 2 === 0);
+  const rightColumn = visibleItems.filter((_, i) => i % 2 !== 0);
+
+  const handleScroll = ({ nativeEvent }: any) => {
+    const paddingToBottom = 20;
+    const isCloseToBottom = nativeEvent.layoutMeasurement.height + nativeEvent.contentOffset.y >= nativeEvent.contentSize.height - paddingToBottom;
+    if (isCloseToBottom) {
+      loadMore();
+    }
+  };
+
+  useFocusEffect(
+  useCallback(() => {
+    // cuando la tab vuelve a estar activa
+    setLoading(false);
+  }, [])
+);
+
+
+const loadMore = () => {
+  if (loading || !hasMore) return;
+
+  setLoading(true);
+
+  setTimeout(() => {
+    const nextItems = dataTest.slice(
+      visibleItems.length,
+      visibleItems.length + PAGE_SIZE
+    );
+
+    setVisibleItems(prev => [...prev, ...nextItems]);
+    setLoading(false);
+  }, 500);
+};
 
 
   return (
@@ -117,20 +169,28 @@ export default function TabOneScreen() {
         resizeMode="cover"
       ></Image>
 
-      <ScrollView contentContainerStyle={styles.mainScroll}>
+      <ScrollView
+        contentContainerStyle={styles.mainScroll}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+      >
         <View style={styles.masonryContainer}>
 
           {/* COLUMNA IZQUIERDA */}
           <View style={styles.column}>
-            {leftColumn.map((item) => renderItem(item, 200))}
+            {leftColumn.map(item => renderItem(item, 200))}
           </View>
 
           {/* COLUMNA DERECHA */}
           <View style={styles.column}>
-            {rightColumn.map((item) => renderItem(item, 300))}
+            {rightColumn.map(item => renderItem(item, 300))}
           </View>
 
         </View>
+
+        {/* 👇 AQUÍ VA EL LOADER */}
+        {loading && (<ActivityIndicator size="small" style={{ marginVertical: 20 }} />)}
+
       </ScrollView>
 
     </>

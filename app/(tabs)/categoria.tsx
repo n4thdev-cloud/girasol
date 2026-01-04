@@ -12,16 +12,10 @@ export default function TabTwoScreen() {
 
   //Inicializar la lista (primeros 10) Slice
   const PAGE_SIZE = 10;
-const [page, setPage] = useState(1);
-const [visibleData, setVisibleData] = useState<any[]>([]);
-const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    setVisibleData(dataCatalogo.slice(0, PAGE_SIZE));
-  }, []);
-
-
-
-
+  const [page, setPage] = useState(1);
+  const [visibleData, setVisibleData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {setVisibleData(dataCatalogo.slice(0, PAGE_SIZE));}, []);
 
   const dataCatalogo = [
     { id: "1", imagen: 'https://ss523.liverpool.com.mx/xl/1139442781.jpg', categoria: "Item 1, descipcion larga,Item 1, descipcion larga, Item 1, descipcion larga" },
@@ -71,25 +65,25 @@ const [loading, setLoading] = useState(false);
   ];
 
   const hasMore = visibleData.length < dataCatalogo.length;
-const loadMore = () => {
-  if (loading) return;
+  const loadMore = () => {
+    if (loading) return;
 
-  setLoading(true);
+    setLoading(true);
 
-  const start = page * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
+    const start = page * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
 
-  const nextItems = dataCatalogo.slice(start, end);
+    const nextItems = dataCatalogo.slice(start, end);
 
-  if (nextItems.length === 0) {
+    if (nextItems.length === 0) {
+      setLoading(false);
+      return;
+    }
+
+    setVisibleData(prev => [...prev, ...nextItems]);
+    setPage(prev => prev + 1);
     setLoading(false);
-    return;
-  }
-
-  setVisibleData(prev => [...prev, ...nextItems]);
-  setPage(prev => prev + 1);
-  setLoading(false);
-};
+  };
 
 
 
