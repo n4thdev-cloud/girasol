@@ -24,7 +24,7 @@ export default function TabLayout() {
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
-        tabBarItemStyle: {paddingBottom: 10, height: 80},
+        tabBarItemStyle: { paddingBottom: 10, height: 80 },
       }}>
       <Tabs.Screen
         name="inicio"
@@ -40,6 +40,14 @@ export default function TabLayout() {
           title: 'Categorías',
           tabBarIcon: ({ color }) =>
             <TabBarIcon name="list-ul" color={color} ></TabBarIcon>,
+        }}
+      />
+      <Tabs.Screen
+        name="carrito"
+        options={{
+          title: 'Carrito',
+          tabBarIcon: ({ color }) =>
+            <TabBarIcon name="shopping-cart" color={color} ></TabBarIcon>,
         }}
       />
     </Tabs>
