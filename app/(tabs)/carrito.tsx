@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, Image, Pressable, StyleSheet } from 'react-native';
+import { Dimensions, FlatList, Image, Modal, Pressable, StyleSheet } from 'react-native';
 
 import { View } from '@/components/Themed';
 import { router, Stack } from 'expo-router';
@@ -12,6 +12,7 @@ const { width } = Dimensions.get('window');
 export default function TabCarrito() {
 
     const [isEnabled, setIsEnabled] = useState(false);
+    const [visible, setVisible] = useState(false);
 
 
     const dataCatalogo = [
@@ -70,60 +71,83 @@ export default function TabCarrito() {
 
     return (
         <>
-            <Stack.Screen
-                options={{
-                    headerStyle: { backgroundColor: '#dbe51aff' },
-                    headerTitle: '',
-                    headerLeft: () => (
-                        <><View style={styles.headerContainer}>
-                            <Pressable style={styles.btn} onPress={() => router.push("/(tabs)/categoria")}>
-                                <TabBarIcon name="search" color="#ffffffff" backgroundColor="#3a3a3aff"></TabBarIcon>
+            <View style={styles.container}>
+                <Stack.Screen
+                    options={{
+                        headerStyle: { backgroundColor: '#dbe51aff' },
+                        headerTitle: '',
+                        headerLeft: () => (
+                            <><View style={styles.headerContainer}>
+                                <Pressable style={styles.btn} onPress={() => router.push("/(tabs)/categoria")}>
+                                    <TabBarIcon name="arrow-left" color="#ffffffff" backgroundColor="#3a3a3aff"></TabBarIcon>
+                                </Pressable>
+
+                                <Pressable style={styles.btnCheck} onPress={() => setIsEnabled(prev => !prev)}>
+                                    <Ionicons
+                                        name="checkmark"
+                                        size={22}
+                                        color={isEnabled ? "#2ecc71" : "#cd0e0eff"}
+                                    />
+                                </Pressable>
+                                <Text>Carrito [333]</Text>
+
+
+                            </View></>
+                        ),
+
+
+                    }}>
+
+                </Stack.Screen>
+
+
+                <FlatList
+                    data={dataCatalogo}
+                    keyExtractor={(item) => item.id}
+                    style={styles.lista}
+                    contentContainerStyle={{
+                        paddingHorizontal: 10,
+                    }}
+                    renderItem={({ item }) => (
+                        <View style={styles.item}>
+                            <Image
+                                source={{ uri: item.imagen }}
+                                style={styles.imageItemMasVendido}
+                                resizeMode="cover"
+                            />
+                            {/* Texto derecha */}
+                            <View style={styles.textContainer}>
+                                <Text style={styles.title}>{item.categoria}</Text>
+                                <Text style={styles.subtitle}>Descripción del producto</Text>
+                                <Text style={styles.price}>$19.99</Text>
+                            </View>
+                        </View>
+                    )}
+
+                ></FlatList>
+                <View style={styles.fixed}>
+                    <Text style={styles.text}>$1.34</Text>
+
+                    <Pressable style={styles.button} onPress={() => setVisible(true)}>
+                        <Text style={styles.buttonText}>Comprar: contacto vendedxr</Text>
+                    </Pressable>
+                </View>
+
+                {/* Modal */}
+                <Modal visible={visible} transparent animationType="slide">
+                    <View style={styles.modalBackdrop}>
+                        <View style={styles.modalContent}>
+                            <Text>Mi numero de contacto: 0938355677 👋</Text>
+
+                            <Pressable onPress={() => setVisible(false)}>
+                                <Text style={{ marginTop: 20, color: 'blue' }}>Cerrar</Text>
                             </Pressable>
-
-                            <Pressable style={styles.btnCheck} onPress={() => setIsEnabled(prev => !prev)}>
-                                <Ionicons
-                                    name="checkmark"
-                                    size={22}
-                                    color={isEnabled ? "#2ecc71" : "#cd0e0eff"}
-                                />
-                            </Pressable>
-
-
-                        </View></>
-                    ),
-
-
-                }}>
-
-            </Stack.Screen>
-
-
-            <FlatList
-                data={dataCatalogo}
-                keyExtractor={(item) => item.id}
-                style={styles.lista}
-                contentContainerStyle={{
-                    paddingHorizontal: 10,
-                }}
-                renderItem={({ item }) => (
-                    <View style={styles.item}>
-                        <Image
-                            source={{ uri: item.imagen }}
-                            style={styles.imageItemMasVendido}
-                            resizeMode="cover"
-                        />
-                        {/* Texto derecha */}
-                        <View style={styles.textContainer}>
-                            <Text style={styles.title}>{item.categoria}</Text>
-                            <Text style={styles.subtitle}>Descripción del producto</Text>
-                            <Text style={styles.price}>$19.99</Text>
                         </View>
                     </View>
-                )}
-
-            ></FlatList>
+                </Modal>
 
 
+            </View >
 
         </>
     );
@@ -154,15 +178,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 10
     },
-    button: {
-        paddingHorizontal: 8,
-    },
+   
     input: {
         flex: 1,          // 🔥 ocupa todo el espacio disponible
         height: '100%',
         paddingHorizontal: 10,
     },
-  
+
 
 
     row: {
@@ -254,53 +276,92 @@ const styles = StyleSheet.create({
         backgroundColor: "#222",
         borderRadius: 10,
     },
-    text: {
-        color: "#fff",
-        fontSize: 16,
-    },
+
     btnCheck: {
         padding: 12,
         backgroundColor: "#222",
         borderRadius: 10,
     },
-item: {
-  flexDirection: "row",     // 🔑 pone imagen + texto en fila
-  width: "100%",
-  backgroundColor: "#fff",
-  borderRadius: 14,
-  padding: 10,
-  marginBottom: 12,
-  alignItems: "center",
-},
+    item: {
+        flexDirection: "row",     // 🔑 pone imagen + texto en fila
+        width: "100%",
+        backgroundColor: "#fff",
+        borderRadius: 14,
+        padding: 10,
+        marginBottom: 12,
+        alignItems: "center",
+    },
 
-image: {
-  width: 90,
-  height: 110,
-  borderRadius: 10,
-},
+    image: {
+        width: 90,
+        height: 110,
+        borderRadius: 10,
+    },
 
-textContainer: {
-  flex: 1,                  // 🔑 ocupa todo el espacio restante
-  marginLeft: 12,
-},
+    textContainer: {
+        flex: 1,                  // 🔑 ocupa todo el espacio restante
+        marginLeft: 12,
+    },
 
-title: {
-  fontSize: 14,
-  fontWeight: "600",
-},
+    title: {
+        fontSize: 14,
+        fontWeight: "600",
+    },
 
-subtitle: {
-  fontSize: 12,
-  color: "#666",
-  marginTop: 4,
-},
+    subtitle: {
+        fontSize: 12,
+        color: "#666",
+        marginTop: 4,
+    },
 
-price: {
-  fontSize: 14,
-  fontWeight: "bold",
-  marginTop: 6,
-},
+    price: {
+        fontSize: 14,
+        fontWeight: "bold",
+        marginTop: 6,
+    },
+    container: {
+        flex: 1,
+    },
+    fixed: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 60,
+        paddingHorizontal: 16,
 
+        flexDirection: 'row',          // 👈 clave
+        alignItems: 'center',          // centra vertical
+        justifyContent: 'space-between', // izquierda / derecha
+
+        backgroundColor: '#fff',
+        borderTopWidth: 1,
+        borderColor: '#ddd',
+    },
+    text: {
+        fontSize: 16,
+    },
+    button: {
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        backgroundColor: '#007AFF',
+        borderRadius: 6,
+    },
+    buttonText: {
+        color: '#fff',
+    },
+    modalBackdrop: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        width: '80%',
+    },
 
 
 });
