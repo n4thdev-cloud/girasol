@@ -162,108 +162,13 @@ const styles = StyleSheet.create({
     lista: {
         width: "100%",
         backgroundColor: "#f2f2f2",
+        paddingBottom: 50,
     },
-
-    bodyContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: "#d314d6ff",
-    },
-
-
     headerContainer: {
         backgroundColor: '#b61bd5ff',
         flexDirection: "row",
         alignItems: "center",
         gap: 10
-    },
-   
-    input: {
-        flex: 1,          // 🔥 ocupa todo el espacio disponible
-        height: '100%',
-        paddingHorizontal: 10,
-    },
-
-
-
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-
-
-    // Para la Opción 1 (FlatList numColumns)
-    columnWrapper: {
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
-    },
-
-    // Para la Opción 2 (Columnas manuales)
-    mainContainer: {
-        flexDirection: 'row', // Ponemos las columnas una al lado de la otra
-        padding: 10,
-    },
-
-    itemDescripcion: {
-        fontSize: 12,
-        marginTop: 4,
-    },
-
-    itemPromocion: {
-        fontSize: 12,
-        marginTop: 4,
-        fontWeight: 'bold',
-    },
-
-    itemPrecio: {
-        fontSize: 12,
-        marginTop: 4,
-        fontWeight: 'bold',
-    },
-
-    mainScroll: {
-        paddingBottom: 10, // Espacio al final
-    },
-    masonryContainer: {
-        flexDirection: 'row', // Esto pone las columnas una al lado de la otra
-        paddingHorizontal: 5,
-        alignItems: 'flex-start', // Importante para que no estire las tarjetas
-    },
-    column: {
-        flex: 1, // Cada columna toma la mitad del ancho
-        flexDirection: 'column',
-    },
-    card: {
-        backgroundColor: '#fff',
-        borderRadius: 6,
-        margin: 3, // Espacio entre tarjetas
-        overflow: 'hidden',
-        // Sombras
-        elevation: 3,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-    },
-    imageItem: {
-        width: '100%',
-        // La altura ahora viene definida por el parámetro customHeight
-    },
-    itemTitle: {
-        fontWeight: 'bold',
-        padding: 8,
-        paddingBottom: 2,
-    },
-    itemDescription: {
-        fontSize: 12,
-        color: '#666',
-        paddingHorizontal: 8,
-        paddingBottom: 10,
-    },
-    leftItem: {
-        paddingHorizontal: 6,
-        paddingTop: 6
     },
     imageItemMasVendido: {
         width: 100,
@@ -290,12 +195,6 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 12,
         alignItems: "center",
-    },
-
-    image: {
-        width: 90,
-        height: 110,
-        borderRadius: 10,
     },
 
     textContainer: {
