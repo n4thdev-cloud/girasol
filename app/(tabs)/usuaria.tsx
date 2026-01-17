@@ -1,4 +1,4 @@
-import { Dimensions, Image, Modal, Pressable, StyleSheet } from 'react-native';
+import { Dimensions, Image, ImageBackground, Modal, Pressable, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 import { View } from '@/components/Themed';
 import { router, Stack } from 'expo-router';
@@ -85,7 +85,38 @@ function UsuariaSinLoguearse() {
 
                 </Stack.Screen>
 
+               <ScrollView contentContainerStyle={{ paddingBottom: 90 }}>
 
+                    {/* Imagen grande */}
+                    <ImageBackground
+                        source={require("../../assets/images/bannerLogin.png")} // cambia la ruta
+                        style={styles.imageLogin}
+                        resizeMode="cover"
+                    >
+                        {/* si luego quieres texto encima de la imagen */}
+                    </ImageBackground>
+
+                    {/* Login */}
+                    <View style={styles.loginContainer}>
+                        <Text style={styles.titleLogin}>Iniciar sesión</Text>
+
+                        <TextInput
+                            placeholder="Correo"
+                            style={styles.inputLogin}
+                        />
+
+                        <TextInput
+                            placeholder="Contraseña"
+                            secureTextEntry
+                            style={styles.inputLogin}
+                        />
+
+                        <TouchableOpacity style={styles.buttonLogin}>
+                            <Text style={styles.buttonTextLogin}>Entrar</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </ScrollView>
 
                 <View style={styles.fixed}>
                     <Text style={styles.text}>$1.34</Text>
@@ -117,10 +148,10 @@ function UsuariaSinLoguearse() {
 }
 
 function UsuariaLogueada() {
-        const [isEnabled, setIsEnabled] = useState(false);
+    const [isEnabled, setIsEnabled] = useState(false);
     const [visible, setVisible] = useState(false);
     return (
-                <>
+        <>
             <View style={styles.container}>
                 <Stack.Screen
                     options={{
@@ -143,12 +174,8 @@ function UsuariaLogueada() {
                                 </Pressable>
                             </View>
                         ),
-
-
                     }}>
-
                 </Stack.Screen>
-
 
 
                 <View style={styles.fixed}>
@@ -295,7 +322,7 @@ const styles = StyleSheet.create({
     imageUsuaria: {
         width: '100%',
         height: '100%',
-        borderRadius: 16,
+        borderRadius: 36,
     },
     // boton volver
     btn: {
@@ -325,11 +352,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     contenedorImagenUsuaria: {
-        width: 36,
-        height: 36,
+        width: 56,
+        height: 56,
         marginLeft: 10,
         padding: 2,
-        borderRadius: 18,
+        borderRadius: 36,
         backgroundColor: '#000', // borde visual
     },
 
@@ -402,6 +429,48 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         width: '80%',
+    },
+
+
+    containerLogin: {
+        backgroundColor: "#fff",
+    },
+
+    imageLogin: {
+        width: "100%",
+        height: 200, // ocupa el espacio vacío
+    },
+
+    loginContainer: {
+        padding: 20,
+    },
+
+    titleLogin: {
+        fontSize: 22,
+        fontWeight: "600",
+        marginBottom: 16,
+    },
+
+    inputLogin: {
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 8,
+        padding: 12,
+        marginBottom: 12,
+    },
+
+    buttonLogin: {
+        backgroundColor: "#007AFF",
+        padding: 14,
+        borderRadius: 8,
+        alignItems: "center",
+        marginTop: 8,
+    },
+
+    buttonTextLogin: {
+        color: "#fff",
+        fontWeight: "600",
+        fontSize: 16,
     },
 
 
