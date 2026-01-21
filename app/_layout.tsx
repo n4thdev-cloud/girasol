@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 import SplashScreen from '@/components/SplashScreen';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useState } from "react";
+import { ProductoProvider } from './context/ProductoContext';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -40,7 +41,7 @@ export default function RootLayout() {
       onFinish={(isCancelled) => !isCancelled && setAppReady(true)} />
   }
 
-  return <RootLayoutNav />;
+  return (<ProductoProvider><RootLayoutNav ></RootLayoutNav></ProductoProvider>);
 }
 
 function RootLayoutNav() {

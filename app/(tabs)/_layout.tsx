@@ -58,6 +58,13 @@ export default function TabLayout() {
             <TabBarIcon name="user" color={color} ></TabBarIcon>,
         }}
       />
+      {/* 👇 OCULTO */}
+      <Tabs.Screen
+        name="detalleProducto"
+        options={{
+          href: null,      // 👈 CLAVE
+        }}
+      />
 
 
     </Tabs>
